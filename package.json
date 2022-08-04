@@ -1,0 +1,9 @@
+{
+  "name": "Strakhova_TEST",
+  "version": "1.0.0",
+  "dependencies": {
+    "@salesforce/schema": "^0.0.19",
+    "lightning": "^5.16.4",
+    "lwc": "^2.21.1"
+  }
+}

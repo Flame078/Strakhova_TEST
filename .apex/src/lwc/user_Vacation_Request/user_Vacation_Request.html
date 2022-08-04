@@ -1,0 +1,118 @@
+<template >
+    <div class="wrapper">
+            <div class="header"> <h1><b>Vacation requests</b></h1></div>
+            <lightning-button label="Create New..." title="Create new request" onclick={showForm} class="slds-m-left_x-small"></lightning-button>
+        <lightning-button label="Load Requests" title="Load all request" onclick={getIdList} ></lightning-button>
+        <lightning-input type="checkbox" label="Show My" onchange={showMy} title="I tried to make it work, but I haven't succeed."></lightning-input>
+        <template for:each={requestRecordIds} for:item="requestRecordId">
+            <template if:true={areMy} id="show" >
+        <lightning-record-view-form
+                key={requestRecordIds.Id}
+                object-api-name={vacationRequest}
+                record-id={requestRecordId.Id}
+        >
+            <div id="request_wrapper" class={requestRecordId.Status__c}>
+            <lightning-output-field field-name={user}></lightning-output-field>
+            <lightning-output-field field-name={requestType}></lightning-output-field>
+            <lightning-output-field field-name={startDate}></lightning-output-field>
+            <lightning-output-field field-name={endDate}></lightning-output-field>
+            <lightning-output-field field-name={manager} ></lightning-output-field>
+            <lightning-output-field field-name={working_days_output}></lightning-output-field>
+            <lightning-output-field field-name={Request_status}></lightning-output-field>
+                <lightning-button variant="destructive"
+                                  label="Delete"
+                                  icon-name="utility:delete"
+                                  icon-position="right"
+                                  onclick={deleteRequest}
+                                  value={requestRecordId.Id}
+                                  data-user={requestRecordId.CreatedById} data-status={requestRecordId.Status__c}
+                >
+                </lightning-button>
+            </div>
+        </lightning-record-view-form>
+
+
+               <lightning-record-edit-form
+                       key={requestRecordIds.Id}
+                       object-api-name={vacationRequest}
+                       record-id={requestRecordId.Id}
+                       onsubmit = {SubmitIfOk}
+                       onsuccess={changeStatusToSubmitted}
+               >
+                   <lightning-input-field field-name={Request_status} value="Submitted" class="slds-hide" ></lightning-input-field>
+                   <lightning-button variant="brand"
+                                  label="Submit"
+                                  title="Changes status to 'Submit'. Manager cannot approve 'New' requests"
+                                  icon-name="utility:edit"
+                                  type="submit"
+                                  icon-position="right"
+                                     onclick={checkForSubmmit}
+                                     value={requestRecordId.Status__c}
+                                     data-user={requestRecordId.CreatedById}
+
+                ></lightning-button>
+               </lightning-record-edit-form>
+                    <lightning-record-edit-form
+                            key={requestRecordIds.Id}
+                            object-api-name={vacationRequest}
+                            record-id={requestRecordId.Id}
+                            onsuccess={writeSuccessMessage}
+                            onsubmit={ApproveIfOk}
+                    >
+
+                        <lightning-input-field field-name={Request_status} value="Approved" class="slds-hide" ></lightning-input-field>
+                        <lightning-button variant="brand"
+                                          label="Approve"
+                                          title="Changes status to 'Approved'. Manager cannot approve 'New' requests"
+                                          icon-name="utility:edit"
+                                          type="submit"
+                                          icon-position="right"
+                                          onclick={checkForApprove}
+                                          value={requestRecordId.Status__c}
+                                          data-manager={requestRecordId.Manager__c}
+                        ></lightning-button>
+                    </lightning-record-edit-form>
+
+            </template>
+</template>
+    </div>
+
+    <template if:true={areDetailsVisible}>
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+                <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                </svg>
+                <span class="slds-assistive-text">Cancel and close</span>
+            </button>
+            <div class="slds-modal__header">
+                <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">New Request</h1>
+            </div>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+                <lightning-record-edit-form
+                        object-api-name="Vacation_Request__c"
+                        onsuccess={writeSuccessMessage}
+                        onerror={writeErrorMessage}
+                >
+                    <lightning-input-field field-name={requestType}></lightning-input-field>
+                    <lightning-input-field field-name={startDate} ></lightning-input-field>
+                    <lightning-input-field field-name={endDate} ></lightning-input-field>
+                    <lightning-input-field field-name={manager} ></lightning-input-field>
+                    <div class="slds-var-m-top_medium">
+                        <lightning-button variant="brand" type="submit" label="Save">
+                        </lightning-button>
+                        <lightning-button variant="neutral" onclick={hideForm} label="Exit">
+                        </lightning-button>
+                    </div>
+                </lightning-record-edit-form>
+
+            </div>
+            <div class="slds-modal__footer">
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+</template>

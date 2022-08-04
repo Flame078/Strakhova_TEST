@@ -1,0 +1,41 @@
+.wrapper {
+    background: white;
+    font-size: larger;
+    margin: 50px;
+    border: azure;
+    border-radius: 10px;
+    box-shadow: 10px 5px 5px midnightblue;
+    padding-bottom: 10px;
+}
+
+.New{
+    background: cadetblue;
+    margin: 30px;
+    border-radius: 10px;
+    box-shadow: 10px 5px 5px darkgray;
+}
+.Submitted{
+    background: sandybrown;
+    margin: 30px;
+    border-radius: 10px;
+    box-shadow: 10px 5px 5px darkgray;
+}
+.Approved{
+    background: lightgreen;
+    margin: 30px;
+    border-radius: 10px;
+    box-shadow: 10px 5px 5px darkgray;
+}
+.box
+{
+    background: white;
+    font-size: larger;
+    align-content: center;
+    margin-left:30px;
+    margin-right:30px;
+}
+.header
+{
+    text-align: center;
+    font-size: x-large;
+}

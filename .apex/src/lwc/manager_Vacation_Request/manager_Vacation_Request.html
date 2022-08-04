@@ -1,0 +1,19 @@
+<template>
+    <lightning-record-edit-form
+            object-api-name="Vacation_Request__c"
+            onsuccess={writeSuccessMessage}
+    >
+        <lightning-input-field field-name={requestType}></lightning-input-field>
+        <lightning-input-field field-name={startDate}></lightning-input-field>
+        <lightning-input-field field-name={endDate} ></lightning-input-field>
+        <lightning-input-field field-name={manager} ></lightning-input-field>
+        <lightning-input label="Working Days" value={WorkingDays}></lightning-input> <!--Calculated just for user. WorkingDays won't be submitted to server-->
+        <div class="slds-var-m-top_medium">
+            <lightning-button variant="brand" type="submit" label="Save">
+            </lightning-button>
+            <lightning-button variant="neutral" label="Cancel">
+            </lightning-button>
+        </div>
+    </lightning-record-edit-form>
+
+</template>
